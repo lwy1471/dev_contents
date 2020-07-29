@@ -1,8 +1,8 @@
 
 # JPA
 
-- [Entity 클래스](/JPA/엔티티_클래스.md)
-
+- [Entity 클래스](/JPA/Entity_클래스.md)
+- [Entity Manager](/JPA/Entity_Manager.md)
 
 
 
