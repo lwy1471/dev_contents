@@ -1,4 +1,4 @@
-# int 상수 대신 열거 타입을 사용하라
+## int 상수 대신 열거 타입을 사용하라
 
 열거 타입은 일정 개수의 상수 값을 정의한 다음 그 외의 값은 허용하지 않는 타입이다.
 
@@ -149,3 +149,9 @@ public class User {
     ...
 }
 ```
+
+
+</br>
+출처
+
+[이펙티브 자바 3판(Effective Java 3/E)](https://blog.insightbook.co.kr/2018/10/24/%EC%9D%B4%ED%8E%99%ED%8B%B0%EB%B8%8C-%EC%9E%90%EB%B0%94-3%ED%8C%90effective-java-3-e/)
