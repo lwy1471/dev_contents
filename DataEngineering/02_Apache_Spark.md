@@ -14,7 +14,7 @@
 
 ### RDD
 
-RDD: Resilient Distributed Dataset <br>
+RDD: Resilient Distributed Dataset </br>
 스파크의 가장 근본적인 데이터 단위
 
 - Resilient: if data in memory is lost, it can be recreated.
@@ -23,13 +23,14 @@ RDD: Resilient Distributed Dataset <br>
 
 
 #### Creating an RDD
+
 - From a file
 - From a datain memory
 - From another RDD
 
 #### RDD operations: Actions
 
-Actions return values. <br>
+Actions return values. </br>
 Laze Execution: RDD의 데이터들은 Action이 실행되기 전까지 처리되지 않는다.
 
 - count(): returns the number of elements
@@ -49,10 +50,32 @@ RDD는 immutable 하다.
 
 #### RDD Lineage
 
-스파크는 RDD의 계보(처리 이력)을 유지한다. <br>
+스파크는 RDD의 계보(처리 이력)을 유지한다. </br>
 toDebugString 함수를 통해 계보를 볼 수 있다.
 
+</br>
+</br>
 
+### Parallel Operations
+
+- RDD operations are executed in parallel on each partition
+- Some operations preserve patitioning
+  - map, flatMap, filter
+- Some operations repatition
+  - reduceByKey, sortByKey, join, groupByKey
+
+#### Spark Terminology
+
+- Job : a set of task executed as a result of an action
+- Stage : a set of tasks in a job that can be executed in parellel
+- Task : an individual unit of work sent to one executer
+- Application : the set of jobs managed by a single driver
+
+![Summary of Spark Terminology](./resource/spark_terminology.png)
+
+
+</br>
+</br>
 
 ### Lab 1. Explorer RDDs Using the Spark Shell
 

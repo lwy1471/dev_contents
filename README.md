@@ -9,8 +9,9 @@
 
 # Effective Java
 
-- [Item34. 열거 타입](/Effective_java/Item.34_열거_타입.md)
-
+- [Item34. int 상수 대신 열거 타입을 사용하라](/Effective_java/01_Item.34_열거_타입.md)
+- [Item35. ordial 메서드 대신 인스턴스 필드를 사용하라](/Effective_java/02_Item.35_열거_타입2.md)
+- [Item36. 비트 필드 대신 EnumSet을 사용하라](/Effective_java/03_Item.36_열거_타입3.md)
 
 # Data Engineering
 
