@@ -165,7 +165,7 @@ public class Member {
 }
 ```
 
-<br>
+</br>
 출처
 
 [JPA 프로그래밍 입문](https://www.kame.co.kr/nkm/detail.php?tcode=299&tbook_jong=3)

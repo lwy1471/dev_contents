@@ -34,7 +34,7 @@ public void remove(Object entity);
 트랜잭션 커밋 시점에 실제 삭제를 위한 delete 쿼리를 실행한다.
 
 
-<br>
+</br>
 출처
 
 [JPA 프로그래밍 입문](https://www.kame.co.kr/nkm/detail.php?tcode=299&tbook_jong=3)
