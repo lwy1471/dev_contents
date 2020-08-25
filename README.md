@@ -16,4 +16,4 @@
 # Data Engineering
 
 - [Hive_Impala](/DataEngineering/01_DataAnalysis_Hive_Impala.md)
-- [Spark](/DataEnginnering/02_Apache_Spark.md)
+- [Spark](/DataEngineering/02_Apache_Spark.md)
