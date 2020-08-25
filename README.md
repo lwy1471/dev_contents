@@ -5,6 +5,7 @@
 - [Entity Manager](/JPA/02_Entity_Manager.md)
 - [영속 객체의 라이프사이클](/JPA/03_영속_객체의_라이프사이클.md)
 - [N:1 단방향 연관](/JPA/04_N_1_단방향_연관.md)
+- [영속성 전이](/JPA/05_영속성_전이.md)
 
 # Effective Java
 
