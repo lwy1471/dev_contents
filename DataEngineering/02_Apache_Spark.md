@@ -121,7 +121,7 @@ for (userid,(values,count)) in accounthits.take(5) :
    
 ```
 
-#### Lab2. Use Apache Spark SQL for ETL
+### Lab2. Use Apache Spark SQL for ETL
 
 ```Python
 webpageDF = sqlContext.read.load("/loudacre/webpage")
