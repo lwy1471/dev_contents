@@ -68,27 +68,6 @@ text.applyStle(EnumSet.of(Style.BOLD, Style.ITALIC));
 
 ```
 
-ㅇ
-잘못된 방법
-```java
-    public enum Ensemble {
-        SOLO, DUET, TRIO, QUARTET, QUINTET, SEXTET, SEPTET, OCTET, NONET, DECTET;
-
-        public int numberOfMusicians() {return ordial() + 1;}
-    }
-```
-
-올바른 방법
-```java
-    public enum Ensemble {
-        SOLO(1), DUET(2), TRIO(3), QUARTET(4), QUINTET(5), SEXTET(6), SEPTET(7), OCTET(8), NONET(9), DECTET(10);
-
-        private final int numberOfMusicians;
-
-        Ensemble(int size) {this.numberOfMusicians = size;}
-        public int numberOfMusicians() {return numberOfMusicians;}
-    }
-```
 
 </br>
 출처
