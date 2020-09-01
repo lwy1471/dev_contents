@@ -55,6 +55,10 @@ public class Text {
 
     // 어떤 Set을 넘겨도 되나, EnumSet이 가장 좋다.
     public void applyStyles(Set<Sytle> styles) {
+        System.out.println("styles: " + styles);
+        for (Style s : styles) {
+            System.out.println(String.format("[style:%s][value:%d]", s, s.getValue()));
+        }
         ...
     }
 }
