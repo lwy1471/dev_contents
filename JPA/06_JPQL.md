@@ -21,8 +21,8 @@ Select Query의 결과 타입을 모른다면 createQuery(String) 메소드를 �
 예는 아래와 같다.
 
 ```java
-Query<User> q = em.createQuery("select u from User u");
-List<User> users = q.getResultList();
+Query q = em.createQuery("select u from User u");
+List users = q.getResultList();
 for (Object u : users) {
     User user = (User) u;
     ...
@@ -115,10 +115,10 @@ Exists 예제
 select h from Hotel h where exists (select r from Review r where r.hotel = h) order by name
 
 All 예제
-select t from Tema t where 500 < all (select p.salay from Player p where p.team = t)
+select t from Team t where 500 < all (select p.salay from Player p where p.team = t)
 
 Any 예제
-select t from Tema t where 500 < any (select p.salay from Player p where p.team = t)
+select t from Team t where 500 < any (select p.salay from Player p where p.team = t)
 
 ```
 
@@ -129,10 +129,10 @@ setFirstResult() 메소드는 조회할 첫 번째 결과의 위치를 지정한
 setMaxResults() 메소드는 조회할 최대 개수를 지정한다.
 
 ```java
-Query<User> q = em.createQuery("select u from User u");
+Query q = em.createQuery("select u from User u");
 q.setFirstResult(10);
 q.setMaxResults(5);
-List<User> users = q.getResultList();
+List users = q.getResultList();
 ```
 
 위의 JPQL을 실행한 SQL 쿼리(mysql)는 아래와 같다.
@@ -181,7 +181,7 @@ TypedQuery<Object> q = em.createQuery("select t, count(p), avg(p.salary) from Te
 
 List<Object[]> rows = q.getResultList();
 for(Object[] val : rows) {
-    Team tema = (Team) val[0];
+    Team Team = (Team) val[0];
     Long count = (Long) val[1];
     Double avgSal = (Double) val[2];
 }
