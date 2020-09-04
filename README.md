@@ -7,6 +7,7 @@
 - [N:1 단방향 연관](/JPA/04_N_1_단방향_연관.md)
 - [영속성 전이](/JPA/05_영속성_전이.md)
 - [JPQL](/JPA/06_JPQL.md)
+- [JPQL-2](/JPA/07_JPQL_2.md)
 
 # Effective Java
 
