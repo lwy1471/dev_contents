@@ -50,7 +50,7 @@ em.getTransaction().commit();
 em.getTransaction().begin();
 
 CriteriaBuilder cb = em.getCriteriaBuilder();
-CriteriaUpdate<Hotel> cu = cb.createCriteriaDelete(Hotel.class);
+CriteriaDelete<Hotel> cu = cb.createCriteriaDelete(Hotel.class);
 Root<Hotel> h = cu.from(Hotel.class);
 cu.where(cb.equeal(h.get("name"), "베스트웨스턴 구로호텔"));
 
