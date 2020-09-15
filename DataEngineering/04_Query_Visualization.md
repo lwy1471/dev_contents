@@ -126,6 +126,7 @@ select count(*) from team3_user where size(elite) > 0
 |60818|
 
 ### 2차 코드
+: 두 타입의 유저의 평균 star, 평균 compliment, photos 값을 조회하여 비교함.
 ```python
 %pyspark
 #8.Do they rate differently than non-elite users?
@@ -139,6 +140,7 @@ diff = diff.select(col("kind"),f.round(col("avg_stars"),2),f.round(col("cool"),2
 diff.show()
 ```
 ### 2차 결과
+: 평균 평점은 비슷하나 평균 compliment 값, photos 값에서 차이가 나는 것을 볼 수 있음.
 ```sql
 +------+------------------+-------------------+-------------------+-------------------+------------------+-------------------+-------------------+
 |  kind|         avg_stars|               cool|               cute|              funny|               hot|               list|             photos|
