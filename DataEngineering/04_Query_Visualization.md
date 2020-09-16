@@ -16,7 +16,6 @@
 
 ### 코드
 ```python
-%pyspark
 import pyspark.sql.functions as func
 restGroupByCityDF = restaurantsDF.groupBy('city').agg(func.count('name').alias('count')).sort(func.desc('count')).limit(1).show()
 ```
@@ -88,18 +87,62 @@ select stars, count(stars) from restaurants_df group by stars order by count(sta
 ### 결과 - 차트
 ![restaurant_rating_majority_chart](./resource/yelp_data_7_restaurants_rating_majority_barchart.png)
 
+</br>
 
-5. What is rating distribution in the restaurant reviews?
+## 5. What is rating distribution in the restaurant reviews?
+### : 레스토랑 평점 데이터에서 평점 칼럼을 그룹핑해서 분산을 조회함
+
+### 코드
+```sql
+select stars, count(stars) from revRest_df group by stars order by stars
+```
+
+### 결과
+![restaurant_review_groupBy_stars](./resource/yelp_data_9_restaurant_review_groupby_stars.png)
+### 결과 - Pie 차트
+![restaurant_review_groupBy_stars](./resource/yelp_data_9_restaurant_review_groupby_stars_piechart.png)
 
 
-6. Which type of restaurants get good reviews? How about bad reviews?
 
+</br>
 
-a. This will depend on what you consider a good rating. Above 4 star perhaps? You
-choose.
+## 6. Which type of restaurants get good reviews? How about bad reviews?
+### : 앞서 구한 레스토랑의 subcategory를 레스토랑의 타입으로 정의하였음.
+### a. Above 4 star
+### : 평점이 4보다 큰 것을 good, 낮은 것을 bad로 판단하여 결과를 조회함.
 
-b. Similarly, for bad reviews. What would be considered a bad review?
+### 코드
+```sql
+select a.*
+from (
+   select subcategory, round(avg(stars),2) as avg_star
+   from res_exd_df 
+   group by subcategory 
+   having avg(stars) < 4
+   ) a
+order by a.avg_star desc
+```
+### 결과
+![restaurant_review_good_bad_number](./resource/yelp_data_10_restaurant_good_bad_review_by_num.png)
 
+### b. Higher than average of stars
+### : 평점이 평균 평점보다 큰 것을 good, 낮은 것을 bad로 판단하여 결과를 조회함.
+
+### 코드
+```sql
+select a.*
+from (
+   select subcategory, round(avg(stars),2) as avg_star
+   from res_exd_df 
+   group by subcategory 
+   having avg(stars) > (select avg(stars) from res_exd_df) 
+   ) a
+order by a.avg_star desc
+```
+### 결과
+![restaurant_review_good_bad_number](./resource/yelp_data_11_restaurant_good_bad_review_by_avg.png)
+
+</br>
 
 ## 7. Which restaurants have the most reviews?
 ### : 레스토랑 데이터에서 review_count 칼럼을 기준으로 정렬하여 조회함.
@@ -111,6 +154,7 @@ select * from restaurants_df order by review_count desc limit 1
 ### 결과
 ![restaurant_review_count](./resource/yelp_data_8_restaurants_review_count.png)
 
+</br>
 
 
 ## 8. What number of yelp users are elite users? Do they rate differently than non-elite users?
@@ -128,8 +172,6 @@ select count(*) from team3_user where size(elite) > 0
 ### 2차 코드
 : 두 타입의 유저의 평균 star, 평균 compliment, photos 값을 조회하여 비교함.
 ```python
-%pyspark
-#8.Do they rate differently than non-elite users?
 import pyspark.sql.functions as f
 eliteUser = spark.sql("select 'elite' as kind, avg(average_stars) as avg_stars, avg(compliment_cool) as cool, avg(compliment_cute) as cute, avg(compliment_funny) as funny, avg(compliment_hot) as hot, avg(compliment_list) as list, avg(compliment_photos) as photos from team3_user where size(elite) > 0")
 normalUser = spark.sql("select 'normal' as kind, avg(average_stars) as avg_stars, avg(compliment_cool) as cool, avg(compliment_cute) as cute, avg(compliment_funny) as funny, avg(compliment_hot) as hot, avg(compliment_list) as list, avg(compliment_photos) as photos from team3_user where size(elite) = 0")
