@@ -2,7 +2,6 @@
 - [ConcurrentAPI - 1](/Java/01_ConcurrentAPI_intro.md)
 - [ConcurrentAPI - 2](/Java/02_ConcurrentAPI_CompletableFuture.md)
 
-
 # JPA
 
 - [Entity 클래스](/JPA/01_Entity_클래스.md)

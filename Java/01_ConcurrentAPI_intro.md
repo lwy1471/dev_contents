@@ -59,6 +59,9 @@ public static void main(String[] args) {
 
 ### Callable and Futures
 ExecutorService의 submit() 메소드의 인자로는 Runnable뿐만 아니라 Callable도 지원한다. Callable은 Runnable과 거의 동일하지만 리턴 타입을 갖는 것이 차이점이다. Callable도 Runnable과 같이 Executor Service를 통해 실행될 수 있다. Executors의 submit 함수는 블록킹 함수가 아니다. 그렇다면 스레드가 작업을 완료한 결과 값을 받는 방법은 무엇일까? 결과를 받는 방법은 Future라는 클래스에 있다. Executors는 submit  함수의 리턴 값으로 미래의 작업 결과를 받을 수 있는 Future라는 티켓을 발급해준다.
+Future 클래스는 결과 값 확인을 위해 isDone() 메소드와 get() 메소드를 제공한다.
+isDone() 메소드는 서브 테스크 작업이 완료되면 true를 그렇지 않으면 false를 리턴한다. 사용자는 반복문을 통해 명시적으로 블로킹하여 결과 값을 받을 수 있다. 
+get() 메소드는 서브 테스크 작업이 완료될 때까지 무한정 기다린 뒤 결과 값을 받을 수 있는 메소드이다. 즉 리턴을 받을 때까지 코드는 멈추게 된다.
 
 ```java
  public static void main(String[] args) {
@@ -88,6 +91,107 @@ ExecutorService의 submit() 메소드의 인자로는 Runnable뿐만 아니라 C
     logger.info(String.format("%s task is done. ",threadName));
 
     executor.shutdown();
+  }
+```
+
+위의 코드에서 서브 테스크의 결과 값이 리턴될 때까지 매인 스레드는 멈추게 된다. 이 때 get() 메소드에 인자 값으로 시간 값을 넣으면 해당 시간까지 기다린 후 TimeoutException을 발생시킨다.
+
+```java
+
+  public static void main(String[] args) {
+    Callable<String> task = () -> {
+      try {
+        TimeUnit.MILLISECONDS.sleep(3000);
+        String threadName = Thread.currentThread().getName();
+        String msg = String.format("%s task is done. ",threadName);
+
+        return msg;
+      }catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      return null;
+    };
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    Future<String> future = executor.submit(task);
+
+    try {
+      // 1초 동안 결과가 오지 않으면 TimeoutException을 발생시킨다.
+      String msg = future.get(1, TimeUnit.SECONDS);
+      logger.info(msg);
+    }catch (InterruptedException| ExecutionException| TimeoutException e) {
+      e.printStackTrace();
+    }
+    String threadName = Thread.currentThread().getName();
+    logger.info(String.format("%s task is done. ",threadName));
+
+    executor.shutdown();
+  }
+
+```
+
+### 다수의 작업 수행
+Executors는 invokeAll() 메소드를 통해 여러 개의 Callable을 등록하고 결과를 수집할 수 있다. 이 메소드는 Callable 컬렉션을 받아들이고 future 리스트를 반환한다.
+
+```java
+public static void main(String[] args) {
+    List<Callable<String>> callableList = Arrays.asList(
+        () -> Thread.currentThread().getName(),
+        () -> Thread.currentThread().getName(),
+        () -> Thread.currentThread().getName(),
+        () -> Thread.currentThread().getName()
+    );
+
+    ExecutorService executor = null;
+    try {
+      executor = Executors.newFixedThreadPool(4);
+      List<Future<String>> futureList = executor.invokeAll(callableList);
+
+      for(Future<String> future : futureList) {
+        String msg = future.get();
+        logger.info(msg);
+      }
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
+    }
+    String threadName = Thread.currentThread().getName();
+    logger.info(String.format("%s task is done. ", threadName));
+
+    executor.shutdown();
+  }
+```
+
+### Scheduled Executors
+하나의 작업을 주기적으로 실행시키고 싶을 때 scheduled thread pool을 사용하면 된다. ScheduledExecutorService는 주기적으로 작업을 돌리기 위하여 2개의 메소드를 제공한다.
+하나는 scheduleAtFixedRate()이고 나머지는 scheduleWithFixedDelay()이다. 메소드 이름에서 알 수 있듯이 전자는 고정된 주기마다 작업을 실행시키고 후자는 작업이 끝난 후 특정 주기 후에 또다시 작업을 실행한다.
+
+```java
+  public static void main(String[] args) {
+
+    long before = System.currentTimeMillis();
+
+    Runnable task = () -> {
+      try {
+        // 하나의 작업마다 3초가 걸린다.
+        TimeUnit.MILLISECONDS.sleep(3000);
+        String threadName = Thread.currentThread().getName();
+
+        logger.info(String.format("%d seconds later..", (System.currentTimeMillis() - before)/1000));
+        logger.info(String.format("%s task is done. ", threadName));
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    };
+
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+    // 초기 대기 시간은 0초이고 작업이 끝나고 2초 뒤 다시 작업이 시작된다.
+    // 3초, 8초, 13초, 18초 ... 로 작업이 완료된다.
+    executor.scheduleWithFixedDelay(task, 0, 2, TimeUnit.SECONDS);
+
+    String threadName = Thread.currentThread().getName();
+    logger.info(String.format("%s task is done. ", threadName));
   }
 ```
 
