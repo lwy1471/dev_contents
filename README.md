@@ -23,3 +23,6 @@
 
 - [Hive_Impala](/DataEngineering/01_DataAnalysis_Hive_Impala.md)
 - [Spark](/DataEngineering/02_Apache_Spark.md)
+- [Example_Yelp_Dataset](/DataEngineering/03_Exploring_The_Yelp_Dataset.md)
+- [Query_Visualization](/DataEngineering/04_Query_Visualization.md)
+- [Spark_Streaming](/DataEngineering/05_Spark_Streaming.md)
