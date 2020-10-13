@@ -9,6 +9,8 @@
 
 ### Thread와 Runnable
 
+![쓰레드 생명 주기](https://www.baeldung.com/wp-content/uploads/2018/02/Life_cycle_of_a_Thread_in_Java.jpg)
+
 자바는 JDK 1.0부터 Thread를 문법적으로 지원하였다. 사용자는 단지 Runnable 인터페이스를 구현하기만 하면 된다. 
 
 ```java
@@ -34,8 +36,6 @@
 스레드의 특성상 코드가 언제 실행될지는 예측이 불가능하므로 작업 순서를 가늠하는 것은 어려움이 있다. 스레드간 작업의 순서를 보장하기 위해 간혹 위의 코드와 같이 Sleep() 메소드로 블로킹을 적용하는 경우가 있는데, 이는 비효율적이고 추가적인 에러가 발생할 수 있으며 무엇보다 보기에 좋지 않다.
 
 ### Executors
-
-![쓰레드 생명 주기](https://www.baeldung.com/wp-content/uploads/2018/02/Life_cycle_of_a_Thread_in_Java.jpg)
 
 
 [출처](https://www.baeldung.com/java-thread-lifecycle)
