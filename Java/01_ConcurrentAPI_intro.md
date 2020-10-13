@@ -39,11 +39,13 @@
 
 ### Executors
 
+
+
+Thread의 생명 주기를 직접 관리하는 것은 매우 피곤한 일이다. 또한 스레드는 생성 비용이 비싼 편인데 이를 해결하기 위해 주로 ThreadPool을 통해 스레드를 관리한다. Java concurrent api 중 하나인 Executors 클래스를 사용하면 손쉽게 ThreadPool을 생성할 수 있다. 아래는 Executor의 구조와 사이즈 1크기의 스레드 풀을 갖는 executor의 예제이다.
+
 ![Executor 구조](https://www.baeldung.com/wp-content/uploads/2016/08/2016-08-10_10-16-52-1024x572.png)
 
 [출처](https://www.baeldung.com/thread-pool-java-and-guava)
-
-Thread의 생명 주기를 직접 관리하는 것은 매우 피곤한 일이다. 또한 스레드는 생성 비용이 비싼 편인데 이를 해결하기 위해 주로 ThreadPool을 통해 스레드를 관리한다. Java concurrent api 중 하나인 Executors 클래스를 사용하면 손쉽게 ThreadPool을 생성할 수 있다. 아래는 사이즈 1크기의 스레드 풀을 갖는 executor의 예제이다.
 
 ```java
 public static void main(String[] args) {
