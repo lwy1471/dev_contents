@@ -91,6 +91,8 @@ get() 메소드는 서브 테스크 작업이 완료될 때까지 무한정 기�
     ExecutorService executor = Executors.newSingleThreadExecutor();
     Future<String> future = executor.submit(task);
 
+    // do something ...
+
     try {
       String msg = future.get();
       logger.info(msg);
