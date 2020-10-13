@@ -1,8 +1,11 @@
+#
+
 ## 비트 필드 대신 EnumSet을 사용하라.
 
 상수들이 집합으로 사용되어 상태 값을 표현할 때 비트 필드를 사용하곤 한다.
 
 옛날 방식
+
 ```java
 public class Text{
     public static final int STYLE_BOLD = 1 << 0;          // 1 ,  00000001 (2)
@@ -11,7 +14,7 @@ public class Text{
     public static final int STYLE_STRIKETHROUGH = 1 << 4; // 8 ,  00001000 (2)
 
     public void applyStyle(int style) {
-        
+
         if(sytle & STYLE_BOLD == SYTLE_BOLD) {
             // do something.
         }
@@ -30,6 +33,7 @@ public class Text{
 ```
 
 클라이언트 코드
+
 ```java
     text.applyStyles(STYLE_BOLD | STYLE_ITALIC); // 1 | 2 == 3
 ```
@@ -42,6 +46,7 @@ public class Text{
 
 EnumSet 클래스는 이러한 비트 필드의 단점들을 해결해준다.
 EnumSet의 장점은 아래와 같다.
+
 1. Set 인터페이스를 완벽히 구현한다.
 2. 타입이 안전한다.
 3. 다른 Set 구현체와도 함께 사용할 수 있다.
@@ -66,12 +71,12 @@ public class Text {
 
 또한, EnumSet은 집합 생성을 위한 정적 팩토리를 제공한다.
 아래는 EnumSet 인스턴스를 건네는 클라이언트 코드이다.
+
 ```java
 
 text.applyStle(EnumSet.of(Style.BOLD, Style.ITALIC));
 
 ```
-
 
 </br>
 출처
