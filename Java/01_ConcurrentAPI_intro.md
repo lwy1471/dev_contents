@@ -11,6 +11,8 @@
 
 ![쓰레드 생명 주기](https://www.baeldung.com/wp-content/uploads/2018/02/Life_cycle_of_a_Thread_in_Java.jpg)
 
+[출처](https://www.baeldung.com/java-thread-lifecycle)
+
 자바는 JDK 1.0부터 Thread를 문법적으로 지원하였다. 사용자는 단지 Runnable 인터페이스를 구현하기만 하면 된다. 
 
 ```java
@@ -38,7 +40,9 @@
 ### Executors
 
 
-[출처](https://www.baeldung.com/java-thread-lifecycle)
+![쓰레드 생명 주기](https://www.baeldung.com/wp-content/uploads/2016/08/2016-08-10_10-16-52-1024x572.png)
+
+[출처](https://www.baeldung.com/thread-pool-java-and-guava)
 
 Thread의 생명 주기를 직접 관리하는 것은 매우 피곤한 일이다. 또한 스레드는 생성 비용이 비싼 편인데 이를 해결하기 위해 주로 ThreadPool을 통해 스레드를 관리한다. Java concurrent api 중 하나인 Executors 클래스를 사용하면 손쉽게 ThreadPool을 생성할 수 있다. 아래는 사이즈 1크기의 스레드 풀을 갖는 executor의 예제이다.
 
@@ -182,6 +186,63 @@ public static void main(String[] args) {
 [출처](https://programmer.group/excutors-framework-for-j.u.c-threadpool-executor.html)
 
 ```java
+// ThreadPoolExecutor의 execute 메소드
+
+    /**
+     * Executes the given task sometime in the future.  The task
+     * may execute in a new thread or in an existing pooled thread.
+     *
+     * If the task cannot be submitted for execution, either because this
+     * executor has been shutdown or because its capacity has been reached,
+     * the task is handled by the current {@link RejectedExecutionHandler}.
+     *
+     * @param command the task to execute
+     * @throws RejectedExecutionException at discretion of
+     *         {@code RejectedExecutionHandler}, if the task
+     *         cannot be accepted for execution
+     * @throws NullPointerException if {@code command} is null
+     */
+    public void execute(Runnable command) {
+        if (command == null)
+            throw new NullPointerException();
+        /*
+         * Proceed in 3 steps:
+         *
+         * 1. If fewer than corePoolSize threads are running, try to
+         * start a new thread with the given command as its first
+         * task.  The call to addWorker atomically checks runState and
+         * workerCount, and so prevents false alarms that would add
+         * threads when it shouldn't, by returning false.
+         *
+         * 2. If a task can be successfully queued, then we still need
+         * to double-check whether we should have added a thread
+         * (because existing ones died since last checking) or that
+         * the pool shut down since entry into this method. So we
+         * recheck state and if necessary roll back the enqueuing if
+         * stopped, or start a new thread if there are none.
+         *
+         * 3. If we cannot queue task, then we try to add a new
+         * thread.  If it fails, we know we are shut down or saturated
+         * and so reject the task.
+         */
+        int c = ctl.get();
+        if (workerCountOf(c) < corePoolSize) {
+            if (addWorker(command, true))
+                return;
+            c = ctl.get();
+        }
+        if (isRunning(c) && workQueue.offer(command)) {
+            int recheck = ctl.get();
+            if (! isRunning(recheck) && remove(command))
+                reject(command);
+            else if (workerCountOf(recheck) == 0)
+                addWorker(null, false);
+        }
+        else if (!addWorker(command, false))
+            reject(command);
+    }
+
+
 
 // ThreadPoolExecutor의 shutdown 메소드
 
