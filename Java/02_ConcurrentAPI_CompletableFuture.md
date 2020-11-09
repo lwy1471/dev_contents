@@ -62,7 +62,8 @@ supplyAsync() 메소드 예제는 아래와 같다.
   System.out.println(result2);
 
 ```
-
+### join()
+join 메소드는 스레드가 종료되기까지 blocking하는 함수이며 Future의 get 메소드와 거의 동일하다. 차이점은 get 메소드는 checked exception을 던지기 때문에 반드시 try/catch구문으로 예외 처리를 해야한다.
 
 ## Callback 메소드
 
@@ -156,9 +157,12 @@ thenAccept() 메소드는 Consumer<T> 객체를 인자로 받는다(Consumer<T>�
 
 ```
 
-## join()
+### thenCompose()
+https://rlawls1991.tistory.com/entry/CompletableFuture-2
 
-join 메소드는 스레드가 종료되기까지 blocking하는 함수이며 Future의 get 메소드와 거의 동일하다. 차이점은 get 메소드는 checked exception을 던지기 때문에 반드시 try/catch구문으로 예외 처리를 해야한다.
+
+## Stream을 활용한 동시 작업
+
 아래는 CompletableFuture와 Steam API를 사용하여 여러 개의 작업을 생성한 뒤 join 메소드를 통해 작업이 완료되기까지 기다리는 예제이다. 
 
 ```java
