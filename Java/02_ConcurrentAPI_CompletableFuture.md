@@ -157,9 +157,127 @@ thenAccept() 메소드는 Consumer<T> 객체를 인자로 받는다(Consumer<T>�
 
 ```
 
-### thenCompose()
-https://rlawls1991.tistory.com/entry/CompletableFuture-2
+## 조합하기
 
+### thenCompose()
+
+두 작업이 서러 이어서 실행하도록 조합. 두 작업이 연관 관계가 있을 때 사용
+
+```java
+  CompletableFuture<String> firstJob = CompletableFuture.supplyAsync( () -> {
+    try {
+      TimeUnit.MILLISECONDS.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "The first job takes 0.5 seconds.";
+  });
+
+  CompletableFuture<String> secondJob = firstJob.thenCompose( () -> {
+    try {
+      TimeUnit.MILLISECONDS.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "The first job takes 0.5 seconds.";
+  });
+
+  System.out.println(secondJob.get());
+
+```
+
+### thenCombine()
+
+두 작업을 독립적으로 실행하고 둘 다 종료했을 때 콜백 실행
+
+```java
+  CompletableFuture<String> firstJob = CompletableFuture.supplyAsync( () -> {
+    try {
+      TimeUnit.MILLISECONDS.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "The first job takes 0.5 seconds.";
+  });
+
+  CompletableFuture<String> secondJob = CompletableFuture.supplyAsync( () -> {
+    try {
+      TimeUnit.MILLISECONDS.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "The first job takes 0.5 seconds.";
+  });
+
+  CompletableFuture<String> thenCombineJob = firstJob.thenCombine(secondJob, (f, s) -> f + ", " + s );
+  
+  System.out.println(thenCombineJob.get());
+```
+
+### allOf()
+
+여러 작업을 모두 실행하고 모든 작업 결과에 콜백 실행
+각각의 결과가 오류가 발생할 수 있고 리턴 타입이 다를 수 있으므로 List로 받아서 처리해야한다.
+
+```java
+  CompletableFuture<String> firstJob = CompletableFuture.supplyAsync( () -> {
+    try {
+      TimeUnit.MILLISECONDS.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "The first job takes 0.5 seconds.";
+  });
+
+  CompletableFuture<String> secondJob = CompletableFuture.supplyAsync( () -> {
+    try {
+      TimeUnit.MILLISECONDS.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "The first job takes 0.5 seconds.";
+  });
+
+  List<CompletableFuture<String>> futureList = Arrays.asList(firstJob, secondJob);
+  CompletableFutre[] futureArray = futureList.toArray(new CompletableFuture[futureList.size()]);
+
+  CompletableFuture<List<Object>> results = CompletableFuture.allOf(futureArray)
+                                            .thenApply( r -> {
+                                              return futureList.stream()
+                                                               .map( f -> f.join())
+                                                               .collect(Collectors.toList()); 
+                                            });
+
+results.get().forEach(System.out::println);
+
+```
+
+### anyOf()
+
+여러 작업 중에 가장 빠릴 끝난 결과에 대하여 콜백 실행
+
+```java
+  CompletableFuture<String> firstJob = CompletableFuture.supplyAsync( () -> {
+    try {
+      TimeUnit.MILLISECONDS.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "The first job takes 0.5 seconds.";
+  });
+
+  CompletableFuture<String> secondJob = CompletableFuture.supplyAsync( () -> {
+    try {
+      TimeUnit.MILLISECONDS.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "The first job takes 0.5 seconds.";
+  });
+
+  CompletableFuture.anyOf(firstJob, secondJob).thenAccept( s -> System.out.println(s));
+  
+```
 
 ## Stream을 활용한 동시 작업
 
