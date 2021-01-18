@@ -9,6 +9,7 @@
 1. (Map 인터페이스): Key-Value 형태로 저장되는 목록
 
 컬렉션 프레임워크를 구성하고 있는 인터페이스 간이 상속 관계는 아래와 같다.
+
 ![Collection Interface](./resource/collection_interface.gif)
 
 ## Collection 인터페이스의 주요 메소드
